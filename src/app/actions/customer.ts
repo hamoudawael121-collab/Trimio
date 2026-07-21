@@ -63,7 +63,7 @@ export async function getAvailableSlots(shopId: string, serviceId: string, dateS
       if (existingBookings) {
         for (const b of existingBookings) {
           const bStart = new Date(b.booking_time)
-          const bDuration = b.services?.duration_minutes || 30 // default 30 if missing
+          const bDuration = (b as any).services?.duration_minutes || 30 // default 30 if missing
           const bEnd = new Date(bStart.getTime() + bDuration * 60000)
 
           // Overlap condition: StartA < EndB AND EndA > StartB

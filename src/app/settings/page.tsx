@@ -18,8 +18,8 @@ export default async function AdminDashboard() {
 
   // 2. Fetch Dashboard Data
   // Total Users
-  const { count: usersCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true })
-  
+  const { data: allUsers } = await supabase.from('profiles').select('*')
+  const usersCount = allUsers?.length || 0
   // Shops
   const { data: allShops } = await supabase.from('shops').select('*, profiles(full_name, phone_number)')
   const pendingShops = allShops?.filter(s => s.status === 'pending') || []
@@ -105,6 +105,39 @@ export default async function AdminDashboard() {
               <AdminShopControls shopId={shop.id} status={shop.status} />
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Users List */}
+      <div style={{marginTop: '40px'}}>
+        <h2 style={{borderBottom: '2px solid var(--border)', paddingBottom: '10px', marginBottom: '20px'}}>المستخدمين المسجلين ({allUsers?.length || 0})</h2>
+        <div style={{overflowX: 'auto'}}>
+          <table style={{width: '100%', borderCollapse: 'collapse', textAlign: 'right', background: 'var(--surface)', borderRadius: '12px', overflow: 'hidden'}}>
+            <thead style={{background: 'var(--border)', color: 'var(--text-muted)'}}>
+              <tr>
+                <th style={{padding: '12px'}}>الاسم</th>
+                <th style={{padding: '12px'}}>رقم الهاتف</th>
+                <th style={{padding: '12px'}}>الدور</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allUsers?.map((user) => (
+                <tr key={user.id} style={{borderBottom: '1px solid var(--border)'}}>
+                  <td style={{padding: '12px', fontWeight: 'bold'}}>{user.full_name || 'غير محدد'}</td>
+                  <td style={{padding: '12px'}}>{user.phone_number}</td>
+                  <td style={{padding: '12px'}}>
+                    <span style={{
+                      padding: '4px 8px', borderRadius: '4px', fontSize: '12px',
+                      background: user.role === 'admin' ? 'var(--primary)' : user.role === 'shop_owner' ? 'var(--secondary)' : '#eee',
+                      color: user.role === 'customer' ? '#333' : '#fff'
+                    }}>
+                      {user.role === 'admin' ? 'مدير' : user.role === 'shop_owner' ? 'صاحب محل' : 'زبون'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 

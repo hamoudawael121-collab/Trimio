@@ -31,11 +31,13 @@
 
 .row {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 .row > div {
   flex: 1;
+  min-width: 250px;
 }
 
 .formGroup {

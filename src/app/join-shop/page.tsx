@@ -14,37 +14,34 @@ export default async function JoinShop({ searchParams }: { searchParams: Promise
 
         <form className={styles.form} action={registerShop}>
           
-          <div className={styles.row}>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>الاسم بالكامل (صاحب المحل)</label>
-              <input type="text" name="ownerName" className={styles.input} required />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>رقم التليفون للتواصل (ويستخدم لتسجيل الدخول)</label>
-              <input type="tel" name="phone" className={styles.input} required />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label className={styles.label}>كلمة المرور</label>
-              <input type="password" name="password" className={styles.input} required />
-            </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>الاسم بالكامل (صاحب المحل)</label>
+            <input type="text" name="ownerName" className={styles.input} required />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>رقم التليفون للتواصل (ويستخدم لتسجيل الدخول)</label>
+            <input type="tel" name="phone" className={styles.input} required />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>كلمة المرور</label>
+            <input type="password" name="password" className={styles.input} required />
           </div>
 
           <hr style={{borderTop: '1px solid var(--border)', margin: '10px 0'}} />
 
-          <div className={styles.row}>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>اسم المحل</label>
-              <input type="text" name="shopName" className={styles.input} required />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label className={styles.label}>نوع المحل</label>
-              <select name="shopType" className={styles.select} required>
-                <option value="barbershop">صالون حلاقة رجالي</option>
-                <option value="salon">كوافير حريمي</option>
-              </select>
-            </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>اسم المحل</label>
+            <input type="text" name="shopName" className={styles.input} required />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>نوع المحل</label>
+            <select name="shopType" className={styles.select} required>
+              <option value="barbershop">صالون حلاقة رجالي</option>
+              <option value="salon">كوافير حريمي</option>
+            </select>
           </div>
 
           <div className={styles.formGroup}>
@@ -57,16 +54,14 @@ export default async function JoinShop({ searchParams }: { searchParams: Promise
             <input type="text" name="address" className={styles.input} required />
           </div>
 
-          <div className={styles.row}>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>صورة للمحل (اختياري حالياً)</label>
-              <input type="file" name="shopImage" accept="image/*" className={styles.fileInput} />
-            </div>
-            
-            <div className={styles.formGroup}>
-              <label className={styles.label}>إثبات الملكية (بطاقة أو سجل تجاري - اختياري حالياً)</label>
-              <input type="file" name="proofOfOwnership" accept="image/*,.pdf" className={styles.fileInput} />
-            </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>صورة للمحل (اختياري حالياً)</label>
+            <input type="file" name="shopImage" accept="image/*" className={styles.fileInput} />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>إثبات الملكية (بطاقة أو سجل تجاري - اختياري حالياً)</label>
+            <input type="file" name="proofOfOwnership" accept="image/*,.pdf" className={styles.fileInput} />
           </div>
 
           <button type="submit" className={`btn-primary ${styles.submitBtn}`}>تسجيل المحل كشريك</button>

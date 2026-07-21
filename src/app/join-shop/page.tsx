@@ -55,12 +55,12 @@ export default async function JoinShop({ searchParams }: { searchParams: Promise
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>صورة للمحل (اختياري حالياً)</label>
+            <label className={styles.label}>صورة للمحل</label>
             <input type="file" name="shopImage" accept="image/*" className={styles.fileInput} />
           </div>
           
           <div className={styles.formGroup}>
-            <label className={styles.label}>إثبات الملكية (بطاقة أو سجل تجاري - اختياري حالياً)</label>
+            <label className={styles.label}>إثبات الملكية (بطاقة أو سجل تجاري)</label>
             <input type="file" name="proofOfOwnership" accept="image/*,.pdf" className={styles.fileInput} />
           </div>
 

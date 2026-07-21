@@ -117,7 +117,10 @@ export default async function ShopDashboard({ searchParams }: { searchParams: Pr
         <div>
           <div className="card" style={{marginBottom: '30px'}}>
             <h2 style={{marginBottom: '20px'}}>إضافة خدمة جديدة</h2>
-            <form action={addService} className={styles.grid}>
+            <form action={async (formData) => {
+              'use server';
+              await addService(formData);
+            }} className={styles.grid}>
               <div className={styles.formGroup}>
                 <label className={styles.label}>اسم الخدمة</label>
                 <input type="text" name="name" className={styles.input} placeholder="مثال: حلاقة شعر" required />

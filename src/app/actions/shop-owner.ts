@@ -76,17 +76,17 @@ export async function updateBookingStatus(bookingId: string, status: string) {
   if (booking && booking.customer_id) {
     const { sendNotification } = await import('@/utils/notifications')
     let title = 'تحديث حالة الحجز'
-    let message = `تم تحديث حالة حجزك في ${booking.shops?.name}`
+    let message = `تم تحديث حالة حجزك في ${(booking as any).shops?.name}`
     
     if (status === 'confirmed') {
       title = 'تم تأكيد الحجز ✅'
-      message = `تم تأكيد حجزك في ${booking.shops?.name}. في انتظارك!`
+      message = `تم تأكيد حجزك في ${(booking as any).shops?.name}. في انتظارك!`
     } else if (status === 'cancelled') {
       title = 'تم إلغاء الحجز ❌'
-      message = `نعتذر، تم إلغاء حجزك في ${booking.shops?.name}.`
+      message = `نعتذر، تم إلغاء حجزك في ${(booking as any).shops?.name}.`
     } else if (status === 'completed') {
       title = 'نعيماً! ✂️'
-      message = `نأمل أن تكون قد استمتعت بخدمتك في ${booking.shops?.name}. لا تنسَ التقييم!`
+      message = `نأمل أن تكون قد استمتعت بخدمتك في ${(booking as any).shops?.name}. لا تنسَ التقييم!`
     }
     
     await sendNotification(booking.customer_id, title, message)

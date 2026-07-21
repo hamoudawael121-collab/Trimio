@@ -109,13 +109,13 @@ export async function createBooking(shopId: string, serviceId: string, dateStr: 
   }
 
   // Send Notification to Shop Owner
-  if (booking && booking.shops?.owner_id) {
-    const customerName = booking.profiles?.full_name || 'زبون جديد'
-    const serviceName = booking.services?.name || 'خدمة'
+  if (booking && (booking as any).shops?.owner_id) {
+    const customerName = (booking as any).profiles?.full_name || 'زبون جديد'
+    const serviceName = (booking as any).services?.name || 'خدمة'
     const formattedTime = bookingTime.toLocaleString('ar-EG')
     
     await sendNotification(
-      booking.shops.owner_id,
+      (booking as any).shops.owner_id,
       'طلب حجز جديد! 📅',
       `يرغب ${customerName} في حجز ${serviceName} في الوقت: ${formattedTime}. يرجى مراجعة الحجز لتأكيده.`
     )

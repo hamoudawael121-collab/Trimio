@@ -46,6 +46,19 @@
   flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+  .searchBox {
+    flex-direction: column;
+    width: 100%;
+  }
+  .selectInput {
+    width: 100%;
+  }
+  .searchBtn {
+    width: 100%;
+  }
+}
+
 /* Section Titles */
 .sectionHeader {
   display: flex;

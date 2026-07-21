@@ -50,3 +50,19 @@
 .loginBtn:hover {
   color: var(--secondary);
 }
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  .actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

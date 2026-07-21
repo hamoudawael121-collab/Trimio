@@ -1,0 +1,124 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 0 60px 0;
+}
+
+.cover {
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  background-color: var(--primary); /* fallback */
+}
+
+.coverOverlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 40px 20px 20px;
+  color: white;
+}
+
+.shopName {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.shopType {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.detailsCard {
+  background: var(--surface);
+  margin: -30px 20px 30px;
+  position: relative;
+  z-index: 10;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.detailsCard h2 {
+  font-size: 20px;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+}
+
+.address {
+  font-size: 16px;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.description {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.servicesSection {
+  padding: 0 20px;
+}
+
+.servicesList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.serviceItem {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.serviceItem:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+}
+
+.serviceName {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 4px;
+}
+
+.serviceMeta {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.servicePrice {
+  font-weight: 800;
+  color: var(--danger);
+  font-size: 20px;
+}
+
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .serviceItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .rightSide {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

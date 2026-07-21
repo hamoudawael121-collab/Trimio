@@ -1,0 +1,128 @@
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: var(--surface);
+  width: 90%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.header {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-color);
+}
+
+.header h2 {
+  font-size: 20px;
+  color: var(--primary-dark);
+}
+
+.closeBtn {
+  font-size: 28px;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0 10px;
+}
+.closeBtn:hover { color: var(--danger); }
+
+.body {
+  padding: 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.label {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-family: inherit;
+  font-size: 16px;
+  background: var(--bg-color);
+}
+
+.slotsSection {
+  margin-top: 10px;
+}
+
+.slotsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.slotBtn {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.slotBtn:hover {
+  border-color: var(--primary);
+}
+
+.slotBtn.selected {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.loading, .noSlots {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-color);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.footer {
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--bg-color);
+}

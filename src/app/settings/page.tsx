@@ -3,6 +3,9 @@ import { redirect } from 'next/navigation'
 import AdminShopControls from '@/components/AdminShopControls'
 import { deleteShop, deleteUser } from '@/app/actions/admin'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function AdminDashboard() {
   const supabase = await createClient()
 
@@ -211,7 +214,8 @@ export default async function AdminDashboard() {
                 <th style={{padding: '16px'}}>اسم المستخدم</th>
                 <th style={{padding: '16px'}}>رقم الهاتف</th>
                 <th style={{padding: '16px'}}>نوع الحساب</th>
-                <th style={{padding: '16px'}}>عدد الحجوزات التي قام بها</th>
+                <th style={{padding: '16px'}}>تاريخ التسجيل</th>
+                <th style={{padding: '16px'}}>عدد الحجوزات</th>
                 <th style={{padding: '16px'}}>إجمالي ما أنفقه (ج.م)</th>
                 <th style={{padding: '16px'}}>الإجراءات</th>
               </tr>
@@ -230,6 +234,9 @@ export default async function AdminDashboard() {
                     }}>
                       {user.role === 'admin' ? '👮 مدير' : user.role === 'shop_owner' ? '💈 صاحب محل' : '👤 زبون'}
                     </span>
+                  </td>
+                  <td style={{padding: '16px', fontSize: '13px', color: 'var(--text-muted)'}} dir="ltr">
+                    {user.created_at ? new Date(user.created_at).toLocaleString('ar-EG') : 'سابق'}
                   </td>
                   <td style={{padding: '16px', fontWeight: 'bold'}}>{user.totalBookings} حجز</td>
                   <td style={{padding: '16px', color: 'var(--success)', fontWeight: 'bold'}}>{user.totalSpent} ج.م</td>

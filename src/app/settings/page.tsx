@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminShopControls from '@/components/AdminShopControls'
-import { deleteShop, deleteUser } from '@/app/actions/admin'
+import { deleteShop, deleteUser, wipeAllTestUsers } from '@/app/actions/admin'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -84,8 +84,15 @@ export default async function AdminDashboard() {
           <h1 style={{color: 'var(--primary)', fontSize: '32px'}}>📊 غرفة العمليات والتحليلات الشاملة</h1>
           <p style={{color: 'var(--text-muted)', fontSize: '14px', marginTop: '4px'}}>متابعة حية وإحصائيات دقيقة لجميع المحلات والمستخدمين والحجوزات</p>
         </div>
-        <div style={{background: 'rgba(56, 189, 248, 0.1)', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 'bold'}}>
-          🟢 النظام يعمل مباشرة (Live Data)
+        <div style={{display: 'flex', gap: '10px', alignItems: 'center'}}>
+          <div style={{background: 'rgba(56, 189, 248, 0.1)', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 'bold'}}>
+            🟢 النظام يعمل مباشرة (Live Data)
+          </div>
+          <form action={wipeAllTestUsers}>
+            <button type="submit" style={{padding: '8px 16px', background: 'rgba(239, 68, 68, 0.2)', border: '1px solid var(--danger)', color: 'var(--danger)', borderRadius: '50px', fontSize: '13px', fontWeight: 'bold', cursor: 'pointer'}}>
+              🧹 مسح جميع البيانات التجريبية
+            </button>
+          </form>
         </div>
       </div>
 

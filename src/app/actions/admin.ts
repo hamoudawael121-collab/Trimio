@@ -141,3 +141,18 @@ export async function deleteUser(userId: string) {
   revalidatePath('/settings')
   return { success: true }
 }
+
+export async function wipeAllTestUsers() {
+  const supabase = await createClient()
+  if (!(await checkAdminAccess(supabase))) return
+
+  await supabase.from('bookings').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await supabase.from('shop_images').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await supabase.from('services').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await supabase.from('shops').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await supabase.from('notifications').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  await supabase.from('profiles').delete().neq('role', 'admin').neq('phone_number', 'wael')
+
+  revalidatePath('/settings')
+  revalidatePath('/')
+}

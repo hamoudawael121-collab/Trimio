@@ -74,6 +74,15 @@ export default async function AdminDashboard() {
     }
   })
 
+  // All Notifications for Admin
+  const { data: adminNotifications } = await supabase
+    .from('notifications')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(10)
+
+  const notificationsList = adminNotifications || []
+
   return (
     <div className="container" style={{paddingTop: '40px', paddingBottom: '80px'}}>
       
@@ -86,6 +95,60 @@ export default async function AdminDashboard() {
         <div style={{background: 'rgba(56, 189, 248, 0.1)', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '8px 16px', borderRadius: '50px', fontSize: '13px', fontWeight: 'bold'}}>
           🟢 النظام يعمل مباشرة (Live Data)
         </div>
+      </div>
+
+      {/* Live Admin Notifications Feed */}
+      <div style={{
+        background: 'rgba(15, 23, 42, 0.75)',
+        border: '1px solid rgba(56, 189, 248, 0.3)',
+        borderRadius: '20px',
+        padding: '20px 24px',
+        marginBottom: '35px',
+        boxShadow: '0 0 25px rgba(56, 189, 248, 0.15)',
+        backdropFilter: 'blur(15px)'
+      }}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
+          <h2 style={{fontSize: '18px', fontWeight: 'bold', color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px', margin: 0}}>
+            🔔 مركز الإشعارات والتنبيهات الفورية
+          </h2>
+          <span style={{fontSize: '12px', background: 'var(--primary)', color: '#000', padding: '3px 10px', borderRadius: '50px', fontWeight: 'bold'}}>
+            {notificationsList.length} إشعار حديث
+          </span>
+        </div>
+
+        {notificationsList.length === 0 ? (
+          <div style={{color: 'var(--text-muted)', fontSize: '14px', textAlign: 'center', padding: '15px 0'}}>
+            لا توجد إشعارات جديدة حالياً. سيوصلك تنبيه فوري هنا فور تسجيل أي مستخدم جديد أو حجز! ✨
+          </div>
+        ) : (
+          <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+            {notificationsList.map(notif => (
+              <div key={notif.id} style={{
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '12px',
+                padding: '12px 16px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '10px'
+              }}>
+                <div>
+                  <div style={{fontWeight: 'bold', fontSize: '14px', color: '#F8FAFC', marginBottom: '4px'}}>
+                    {notif.title}
+                  </div>
+                  <div style={{fontSize: '13px', color: 'var(--text-muted)'}}>
+                    {notif.message}
+                  </div>
+                </div>
+                <div style={{fontSize: '11px', color: 'var(--primary)', fontWeight: '600'}} dir="ltr">
+                  {notif.created_at ? new Date(notif.created_at).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' }) : ''}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 1. Global Metrics Overview */}

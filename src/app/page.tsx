@@ -51,7 +51,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ l
           ⚡ المنصة الأولى لحجز الصالونات في مصر 🇪🇬
         </div>
         <h1 className={styles.heroTitle}>
-          احجز دورك في أفضل الصالونات بدون انتظار ✂️🔥
+          احجز دورك في أفضل الصالونات بدون انتظار ✂️
         </h1>
         <p className={styles.heroSubtitle}>
           اختر الصالون المفضل لديك، تصفح الخدمات والأسعار، واحجز ميعادك بضغطة زر واحدة بدون زحمة.

@@ -94,22 +94,35 @@
 
 .selectInput {
   flex: 1;
-  min-width: 180px;
+  min-width: 200px;
   padding: 16px 20px;
+  padding-left: 45px;
   border-radius: 16px;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 700;
   outline: none;
   font-family: inherit;
-  background: var(--surface);
+  background: #0F172A url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2338BDF8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E") no-repeat left 16px center / 18px;
   color: var(--text-main);
   transition: var(--transition);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.selectInput:focus {
+.selectInput:hover, .selectInput:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.35);
+  background-color: #1E293B;
+}
+
+.selectInput option {
+  background-color: #0F172A;
+  color: #F8FAFC;
+  padding: 14px;
+  font-size: 15px;
 }
 
 .searchBtn {

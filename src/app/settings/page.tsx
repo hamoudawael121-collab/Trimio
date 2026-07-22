@@ -233,7 +233,7 @@ export default async function AdminDashboard() {
               {userAnalytics.map((user) => (
                 <tr key={user.id} style={{borderBottom: '1px solid var(--border)'}}>
                   <td style={{padding: '16px', fontWeight: 'bold'}}>{user.full_name || 'غير محدد'}</td>
-                  <td style={{padding: '16px'}} dir="ltr" style={{textAlign: 'right'}}>{user.phone_number}</td>
+                  <td dir="ltr" style={{padding: '16px', textAlign: 'right'}}>{user.phone_number}</td>
                   <td style={{padding: '16px'}}>
                     <span style={{
                       padding: '4px 10px', borderRadius: '50px', fontSize: '12px', fontWeight: 'bold',
@@ -291,7 +291,7 @@ export default async function AdminDashboard() {
                     <div>{booking.services?.name || 'خدمة'}</div>
                     <div style={{fontWeight: 'bold', color: 'var(--success)'}}>{booking.services?.price || 0} ج.م</div>
                   </td>
-                  <td style={{padding: '16px'}} dir="ltr" style={{textAlign: 'right'}}>
+                  <td dir="ltr" style={{padding: '16px', textAlign: 'right'}}>
                     {new Date(booking.booking_time).toLocaleString('ar-EG')}
                   </td>
                   <td style={{padding: '16px'}}>

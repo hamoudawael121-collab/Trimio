@@ -201,7 +201,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ l
           <div>
             <h4 className={styles.footerTitle}>تواصل معنا</h4>
             <ul className={styles.footerLinks}>
-              <li>الدعم الفني: support@trimio.com</li>
               <li>مصر، القاهرة 🇪🇬</li>
             </ul>
           </div>

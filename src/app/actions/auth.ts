@@ -83,40 +83,48 @@ export async function signup(formData: FormData) {
   }
 
   const email = `${phone}@trimio.com`
-  
   const password = formData.get('password') as string
   const fullName = formData.get('fullName') as string
   const role = formData.get('role') as string || 'customer'
   
   const supabase = await createClient()
 
-  const { data, error } = await supabase.auth.signUp({
+  let { data, error } = await supabase.auth.signUp({
     email,
     password,
   })
 
-  if (error) {
+  // If already registered in Supabase auth system, attempt signIn to restore/link smoothly
+  if (error && error.message.includes('already registered')) {
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (!signInError && signInData.user) {
+      data = signInData
+      error = null
+    } else {
+      return redirect('/login?message=' + encodeURIComponent('هذا الرقم مسجل بالفعل. يمكنك تسجيل الدخول مباشرة'))
+    }
+  } else if (error) {
     return redirect('/signup?message=' + encodeURIComponent(error.message))
   }
 
   // Insert/Upsert profile data into our profiles table
-  if (data.user) {
-    const { error: profileError } = await supabase.from('profiles').upsert({
+  if (data?.user) {
+    await supabase.from('profiles').upsert({
       id: data.user.id,
-      full_name: fullName || 'مستخدم جديد',
+      full_name: fullName || 'مستخدم',
       phone_number: phone,
       role: role
     });
-    
-    if (profileError) {
-      console.error("Profile creation error:", profileError);
-    }
     
     const { notifyAdmin } = await import('@/utils/notifications')
     await notifyAdmin('مستخدم جديد 🎉', `تم تسجيل حساب جديد باسم: ${fullName || 'غير مسمى'} (${phone}) كـ ${role === 'shop_owner' ? 'صاحب محل' : 'زبون'}`)
   }
 
-  return redirect('/login?message=' + encodeURIComponent('تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول الآن بقم هاتفك'))
+  return redirect('/login?message=' + encodeURIComponent('تم تسجيل حسابك بنجاح، يمكنك تسجيل الدخول الآن'))
 }
 
 export async function logout() {

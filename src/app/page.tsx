@@ -91,23 +91,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ l
         </form>
       </section>
 
-      {/* 2. Stats Section */}
-      <section className={styles.statsSection}>
-        <div className={`container ${styles.statsGrid}`}>
-          <div>
-            <div className={styles.statNumber}>100+</div>
-            <div className={styles.statLabel}>صالون معتمد وشريك</div>
-          </div>
-          <div>
-            <div className={styles.statNumber}>+1,500</div>
-            <div className={styles.statLabel}>حجز ناجح بدون انتظار</div>
-          </div>
-          <div>
-            <div className={styles.statNumber}>4.9/5</div>
-            <div className={styles.statLabel}>تقييم العملاء في الخدمة</div>
-          </div>
-        </div>
-      </section>
+
 
       {/* 3. Recommended / Filtered Shops */}
       <section className="container">

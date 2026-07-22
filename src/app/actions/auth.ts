@@ -24,13 +24,23 @@ export async function login(formData: FormData) {
   const password = formData.get('password') as string
   const supabase = await createClient()
 
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data: signInData, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
 
   if (error) {
     return redirect('/login?message=' + encodeURIComponent('خطأ في تسجيل الدخول، يرجى التأكد من البيانات'))
+  }
+
+  // Guarantee Admin Role for wael
+  if (signInData.user && email === 'wael@trimio.com') {
+    await supabase.from('profiles').upsert({
+      id: signInData.user.id,
+      full_name: 'Wael (Admin)',
+      phone_number: 'wael',
+      role: 'admin'
+    })
   }
 
   return redirect('/')

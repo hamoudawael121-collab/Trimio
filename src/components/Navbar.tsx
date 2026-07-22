@@ -10,8 +10,12 @@ export default async function Navbar() {
   
   let role = null;
   if (authData?.user) {
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single()
-    role = profile?.role
+    if (authData.user.email === 'wael@trimio.com') {
+      role = 'admin'
+    } else {
+      const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single()
+      role = profile?.role
+    }
   }
 
   const isLoggedIn = !!authData?.user;

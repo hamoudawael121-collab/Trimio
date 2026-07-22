@@ -11,8 +11,9 @@ export default async function AdminDashboard() {
     redirect('/login')
   }
 
+  const isWaelAdmin = authData.user.email === 'wael@trimio.com'
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single()
-  if (profile?.role !== 'admin') {
+  if (profile?.role !== 'admin' && !isWaelAdmin) {
     redirect('/')
   }
 

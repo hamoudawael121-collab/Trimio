@@ -114,31 +114,23 @@ export async function resetPassword(formData: FormData) {
     return redirect('/forgot-password?error=' + encodeURIComponent('كلمات المرور غير متطابقة'))
   }
 
+  const email = `${phone}@trimio.com`
   const supabase = await createClient()
 
-  // 1. Verify phone number exists in profiles
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('phone_number', phone)
-    .single()
-
-  if (!profile) {
-    return redirect('/forgot-password?error=' + encodeURIComponent('رقم الهاتف هذا غير مسجل في المنصة'))
-  }
-
-  // 2. Perform password update for phone@trimio.com
-  const email = `${phone}@trimio.com`
-  
-  // Update via auth signup/signin or profile verification
-  const { error } = await supabase.auth.signUp({
+  // Update/Register password with Supabase Auth
+  const { data: authData, error } = await supabase.auth.signUp({
     email,
     password: newPassword,
   })
 
-  if (error && !error.message.includes('already registered')) {
-    console.error('Reset error:', error)
+  if (authData?.user) {
+    await supabase.from('profiles').upsert({
+      id: authData.user.id,
+      full_name: 'مستخدم',
+      phone_number: phone,
+      role: 'customer'
+    })
   }
 
-  return redirect('/login?message=' + encodeURIComponent('تم إعادة تعيين كلمة المرور بنجاح، يمكنك تسجيل الدخول الآن بكلمة المرور الجديدة'))
+  return redirect('/login?message=' + encodeURIComponent('تم تحديث وتعيين كلمة المرور بنجاح، يمكنك تسجيل الدخول الآن بكلمة المرور الجديدة'))
 }

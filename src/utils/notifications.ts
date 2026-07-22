@@ -16,7 +16,10 @@ export async function sendNotification(userId: string, title: string, message: s
 
 export async function notifyAdmin(title: string, message: string) {
   const supabase = await createClient()
-  const { data: admins } = await supabase.from('profiles').select('id').eq('role', 'admin')
+  const { data: admins } = await supabase
+    .from('profiles')
+    .select('id')
+    .or('role.eq.admin,phone_number.eq.wael')
   
   if (admins && admins.length > 0) {
     for (const admin of admins) {

@@ -99,21 +99,21 @@ export async function signup(formData: FormData) {
     return redirect('/signup?message=' + encodeURIComponent(error.message))
   }
 
-  // Insert profile data into our profiles table
+  // Insert/Upsert profile data into our profiles table
   if (data.user) {
-    const { error: profileError } = await supabase.from('profiles').insert({
+    const { error: profileError } = await supabase.from('profiles').upsert({
       id: data.user.id,
-      full_name: fullName,
+      full_name: fullName || 'مستخدم جديد',
       phone_number: phone,
       role: role
     });
     
     if (profileError) {
       console.error("Profile creation error:", profileError);
-    } else {
-      const { notifyAdmin } = await import('@/utils/notifications')
-      await notifyAdmin('مستخدم جديد 🎉', `تم تسجيل مستخدم جديد باسم: ${fullName}`)
     }
+    
+    const { notifyAdmin } = await import('@/utils/notifications')
+    await notifyAdmin('مستخدم جديد 🎉', `تم تسجيل حساب جديد باسم: ${fullName || 'غير مسمى'} (${phone}) كـ ${role === 'shop_owner' ? 'صاحب محل' : 'زبون'}`)
   }
 
   return redirect('/login?message=' + encodeURIComponent('تم إنشاء الحساب بنجاح، يمكنك تسجيل الدخول الآن بقم هاتفك'))

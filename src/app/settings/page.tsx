@@ -21,8 +21,21 @@ export default async function AdminDashboard() {
     redirect('/')
   }
 
-  // 2. Fetch Comprehensive Data
-  // Users
+  // 2. Fetch & Auto-Sync Registered Users
+  // Ensure previous registered numbers exist in profiles
+  const previousPhones = ['01017407143']
+  for (const p of previousPhones) {
+    const { data: existing } = await supabase.from('profiles').select('id').eq('phone_number', p).single()
+    if (!existing) {
+      await supabase.from('profiles').upsert({
+        id: crypto.randomUUID(),
+        full_name: 'مستخدم مسجل',
+        phone_number: p,
+        role: 'customer'
+      })
+    }
+  }
+
   const { data: allUsers } = await supabase.from('profiles').select('*').order('created_at', { ascending: false })
   const usersCount = allUsers?.length || 0
   const customersCount = allUsers?.filter(u => u.role === 'customer').length || 0

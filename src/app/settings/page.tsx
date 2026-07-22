@@ -44,21 +44,18 @@ export default async function AdminDashboard() {
 
   // Calculate Total Sales
   const totalSales = completedBookings.reduce((sum, b: any) => sum + (b.services?.price || 0), 0)
-  const platformFee = totalSales * 0.10 // 10% commission
 
   // Map analytics per shop
   const shopAnalytics = approvedShops.map(shop => {
     const shopBookings = bookingsList.filter(b => b.shop_id === shop.id)
     const shopCompleted = shopBookings.filter(b => b.status === 'completed')
     const shopRevenue = shopCompleted.reduce((sum, b: any) => sum + (b.services?.price || 0), 0)
-    const shopCommission = shopRevenue * 0.10
 
     return {
       ...shop,
       totalBookings: shopBookings.length,
       completedBookings: shopCompleted.length,
       revenue: shopRevenue,
-      commission: shopCommission,
     }
   })
 
@@ -133,15 +130,7 @@ export default async function AdminDashboard() {
           <div style={{fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px'}}>إجمالي الدخل المحقق</div>
         </div>
 
-        <div style={{background: 'var(--surface)', padding: '24px', borderRadius: '16px', border: '1px solid var(--primary)'}}>
-          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px'}}>
-            <span style={{fontSize: '28px'}}>📈</span>
-            <span style={{fontSize: '12px', color: 'var(--primary)'}}>عمولة المنصة (10%)</span>
-          </div>
-          <div style={{fontSize: '28px', fontWeight: '900', color: 'var(--primary)'}}>{platformFee} ج.م</div>
-          <div style={{fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px'}}>أرباح المنصة المباشرة</div>
         </div>
-      </div>
 
       {/* 2. Pending Shop Approvals */}
       {pendingShops.length > 0 && (
@@ -178,7 +167,6 @@ export default async function AdminDashboard() {
                 <th style={{padding: '16px'}}>إجمالي الحجوزات</th>
                 <th style={{padding: '16px'}}>الحجوزات الناجحة</th>
                 <th style={{padding: '16px'}}>دخول المحل (مبيعات)</th>
-                <th style={{padding: '16px'}}>عمولة المنصة (10%)</th>
                 <th style={{padding: '16px'}}>الإجراءات</th>
               </tr>
             </thead>
@@ -191,7 +179,6 @@ export default async function AdminDashboard() {
                   <td style={{padding: '16px', fontWeight: 'bold'}}>{shop.totalBookings} حجز</td>
                   <td style={{padding: '16px', color: 'var(--success)', fontWeight: 'bold'}}>{shop.completedBookings} مكتمل</td>
                   <td style={{padding: '16px', fontWeight: 'bold'}}>{shop.revenue} ج.م</td>
-                  <td style={{padding: '16px', color: 'var(--primary)', fontWeight: 'bold'}}>{shop.commission} ج.م</td>
                   <td style={{padding: '16px', display: 'flex', gap: '8px', alignItems: 'center'}}>
                     <AdminShopControls shopId={shop.id} status={shop.status} />
                     <form action={async () => { 'use server'; await deleteShop(shop.id); }}>

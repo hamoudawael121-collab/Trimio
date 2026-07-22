@@ -20,7 +20,10 @@ export default async function Login({ searchParams }: { searchParams: Promise<{ 
           </div>
           
           <div className={styles.formGroup}>
-            <label className={styles.label}>كلمة المرور</label>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <label className={styles.label}>كلمة المرور</label>
+              <Link href="/forgot-password" className={styles.link} style={{fontSize: '13px', color: 'var(--primary)'}}>نسيت كلمة المرور؟</Link>
+            </div>
             <input type="password" name="password" className={styles.input} placeholder="أدخل كلمة المرور" required />
           </div>
           

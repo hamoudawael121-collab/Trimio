@@ -86,10 +86,19 @@ export async function deleteShop(shopId: string) {
   const supabase = await createClient()
   if (!(await checkAdminAccess(supabase))) return { error: 'Unauthorized' }
 
-  const { error } = await supabase.from('shops').delete().eq('id', shopId)
-  if (error) {
-    console.error('Error deleting shop:', error)
-    return { error: 'Failed to delete shop' }
+  try {
+    // Cascade delete child records manually to prevent Foreign Key constraints
+    await supabase.from('bookings').delete().eq('shop_id', shopId)
+    await supabase.from('services').delete().eq('shop_id', shopId)
+    await supabase.from('shop_images').delete().eq('shop_id', shopId)
+
+    const { error } = await supabase.from('shops').delete().eq('id', shopId)
+    if (error) {
+      console.error('Error deleting shop:', error)
+      return { error: 'Failed to delete shop: ' + error.message }
+    }
+  } catch (err: any) {
+    console.error('Exception during shop deletion:', err)
   }
 
   revalidatePath('/settings')
@@ -101,10 +110,32 @@ export async function deleteUser(userId: string) {
   const supabase = await createClient()
   if (!(await checkAdminAccess(supabase))) return { error: 'Unauthorized' }
 
-  const { error } = await supabase.from('profiles').delete().eq('id', userId)
-  if (error) {
-    console.error('Error deleting user:', error)
-    return { error: 'Failed to delete user' }
+  try {
+    // 1. Delete any shops owned by this user
+    const { data: userShops } = await supabase.from('shops').select('id').eq('owner_id', userId)
+    if (userShops && userShops.length > 0) {
+      for (const shop of userShops) {
+        await supabase.from('bookings').delete().eq('shop_id', shop.id)
+        await supabase.from('services').delete().eq('shop_id', shop.id)
+        await supabase.from('shop_images').delete().eq('shop_id', shop.id)
+        await supabase.from('shops').delete().eq('id', shop.id)
+      }
+    }
+
+    // 2. Delete bookings made by this user as a customer
+    await supabase.from('bookings').delete().eq('customer_id', userId)
+
+    // 3. Delete notifications for this user
+    await supabase.from('notifications').delete().eq('user_id', userId)
+
+    // 4. Delete profile
+    const { error } = await supabase.from('profiles').delete().eq('id', userId)
+    if (error) {
+      console.error('Error deleting user profile:', error)
+      return { error: 'Failed to delete user: ' + error.message }
+    }
+  } catch (err: any) {
+    console.error('Exception during user deletion:', err)
   }
 
   revalidatePath('/settings')

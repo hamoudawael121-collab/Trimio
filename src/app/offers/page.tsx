@@ -1,5 +1,8 @@
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default function OffersPage() {
   return (
     <div className="container" style={{ padding: '60px 0', minHeight: '80vh', textAlign: 'center' }}>

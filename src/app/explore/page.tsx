@@ -1,6 +1,9 @@
 import { createClient } from '@/utils/supabase/server';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function ExplorePage() {
   const supabase = await createClient();
   

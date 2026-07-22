@@ -2,6 +2,9 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import { createClient } from '@/utils/supabase/server';
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function Home({ searchParams }: { searchParams: Promise<{ location?: string; type?: string; sort?: string }> }) {
   const supabase = await createClient();
   const { location, type, sort } = await searchParams;

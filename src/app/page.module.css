@@ -39,7 +39,8 @@
   font-size: 16px;
   outline: none;
   font-family: inherit;
-  background: white;
+  background: var(--surface);
+  color: var(--text-main);
 }
 
 .searchBtn {
@@ -147,7 +148,7 @@
 
 .shopImg {
   height: 160px;
-  background-color: #E2E8F0;
+  background-color: var(--border);
   display: flex;
   align-items: center;
   justify-content: center;

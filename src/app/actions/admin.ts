@@ -8,6 +8,8 @@ async function checkAdminAccess(supabase: any) {
   const { data: authData } = await supabase.auth.getUser()
   if (!authData.user) return false
   
+  if (authData.user.email === 'wael@trimio.com') return true
+
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single()
   return profile?.role === 'admin'
 }
@@ -75,6 +77,35 @@ export async function rejectShop(shopId: string) {
     'تم رفض طلب المحل ❌', 
     `نعتذر، لم يتم قبول طلب إضافة محل "${shop.name}" بعد مراجعته من الإدارة لمخالفته الشروط.`
   )
+
+  revalidatePath('/settings')
+  return { success: true }
+}
+
+export async function deleteShop(shopId: string) {
+  const supabase = await createClient()
+  if (!(await checkAdminAccess(supabase))) return { error: 'Unauthorized' }
+
+  const { error } = await supabase.from('shops').delete().eq('id', shopId)
+  if (error) {
+    console.error('Error deleting shop:', error)
+    return { error: 'Failed to delete shop' }
+  }
+
+  revalidatePath('/settings')
+  revalidatePath('/')
+  return { success: true }
+}
+
+export async function deleteUser(userId: string) {
+  const supabase = await createClient()
+  if (!(await checkAdminAccess(supabase))) return { error: 'Unauthorized' }
+
+  const { error } = await supabase.from('profiles').delete().eq('id', userId)
+  if (error) {
+    console.error('Error deleting user:', error)
+    return { error: 'Failed to delete user' }
+  }
 
   revalidatePath('/settings')
   return { success: true }

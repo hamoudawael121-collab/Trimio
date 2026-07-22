@@ -1,6 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import AdminShopControls from '@/components/AdminShopControls'
+import { deleteShop, deleteUser } from '@/app/actions/admin'
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
@@ -191,8 +192,13 @@ export default async function AdminDashboard() {
                   <td style={{padding: '16px', color: 'var(--success)', fontWeight: 'bold'}}>{shop.completedBookings} مكتمل</td>
                   <td style={{padding: '16px', fontWeight: 'bold'}}>{shop.revenue} ج.م</td>
                   <td style={{padding: '16px', color: 'var(--primary)', fontWeight: 'bold'}}>{shop.commission} ج.م</td>
-                  <td style={{padding: '16px'}}>
+                  <td style={{padding: '16px', display: 'flex', gap: '8px', alignItems: 'center'}}>
                     <AdminShopControls shopId={shop.id} status={shop.status} />
+                    <form action={async () => { 'use server'; await deleteShop(shop.id); }}>
+                      <button type="submit" style={{padding: '6px 12px', background: 'rgba(239, 68, 68, 0.2)', color: 'var(--danger)', border: '1px solid var(--danger)', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold'}} title="حذف المحل">
+                        🗑️ حذف
+                      </button>
+                    </form>
                   </td>
                 </tr>
               )) : (
@@ -220,6 +226,7 @@ export default async function AdminDashboard() {
                 <th style={{padding: '16px'}}>نوع الحساب</th>
                 <th style={{padding: '16px'}}>عدد الحجوزات التي قام بها</th>
                 <th style={{padding: '16px'}}>إجمالي ما أنفقه (ج.م)</th>
+                <th style={{padding: '16px'}}>الإجراءات</th>
               </tr>
             </thead>
             <tbody style={{fontSize: '14px'}}>
@@ -239,6 +246,15 @@ export default async function AdminDashboard() {
                   </td>
                   <td style={{padding: '16px', fontWeight: 'bold'}}>{user.totalBookings} حجز</td>
                   <td style={{padding: '16px', color: 'var(--success)', fontWeight: 'bold'}}>{user.totalSpent} ج.م</td>
+                  <td style={{padding: '16px'}}>
+                    {user.role !== 'admin' && (
+                      <form action={async () => { 'use server'; await deleteUser(user.id); }}>
+                        <button type="submit" style={{padding: '6px 12px', background: 'rgba(239, 68, 68, 0.2)', color: 'var(--danger)', border: '1px solid var(--danger)', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold'}} title="حذف المستخدم">
+                          🗑️ حذف
+                        </button>
+                      </form>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
